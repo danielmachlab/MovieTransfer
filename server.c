@@ -70,14 +70,14 @@ int main(int argc, char const *argv[])
         scanner[i] = fgetc(fp);
     
 
-    char package[1023];
-    int index = 0;
+    char package[1024];
+    package[0] = '\0' ;   
 
     while(feof(fp) == 0){
         int equality = strcmp(scanner, argv[1]);
         int len1 =strlen(scanner);
         int len2 =strlen(argv[1]);
-        char nextLetter = fgetc(fp);
+        
 
         // if(strcmp(scanner, argv[1])){
         //     printf("\nscanner: '%s', len: %i\t other: '%s', len: %d\n", scanner, len1, argv[1], len2);
@@ -85,30 +85,30 @@ int main(int argc, char const *argv[])
         
         if(equality == 0){
             for(int i = 0; i <  len; i ++){
-                package[index] = '*';
-                index++;
+                strcat(package, "*");
             }
+            //strcat(package, " ");
             for(int i = 0; i< len; i++)
                 scanner[i] = fgetc(fp);
         }else{
-            package[index] = scanner[0];
-            index++;
+            char temp = scanner[0];
+            sprintf(package, "%s%c", package, temp);
             for(int i = 0; i <  len - 1; i ++)
                 scanner[i] = scanner[i+1]; 
-            scanner[len-1] = nextLetter;
+            scanner[len-1] = fgetc(fp);
         }
 
 
-        if(index>970){
-            printf("\nINDEX: %d\n", index);
-            send(new_socket, package, index, 0 );
-            index = 0;
+        if(strlen(package)>970){
+            send(new_socket, package, strlen(package), 0 );
             printf("-----------------------\n%s", package); 
             package[0] = '\0';
        }
 
     }
-    send(new_socket, package , index, 0 );
+
+    
+    send(new_socket, package, strlen(package), 0 );
     printf("==================%s", package); 
     
     printf("Script sent\n"); 

@@ -17,12 +17,21 @@ int main(int argc, char const *argv[])
     char temp = scanner[0];
     package[0] = '\0';
 
-    strcat(package,hello);
-    strcat(package,frick);
-    sprintf(package, "%s%c\n", package, temp);
-
     int pLength = strlen(package);
-    printf("scanner[]: %s\t*hello: %s\t package: %s \t pLength: %d\n", scanner, hello, package, pLength );
+    printf("scanner[]: %s\t*hello: %s\t package: '%s' \t pLength: %d\n", scanner, hello, package, pLength );
+
+    strcat(package,hello);
+    pLength = strlen(package);
+    printf("scanner[]: %s\t*hello: %s\t package: '%s' \t pLength: %d\n", scanner, hello, package, pLength );
+
+    strcat(package,frick);
+    pLength = strlen(package);
+    printf("scanner[]: %s\t*hello: %s\t package: '%s' \t pLength: %d\n", scanner, hello, package, pLength );
+
+    sprintf(package, "%s%c", package, temp);
+
+    pLength = strlen(package);
+    printf("scanner[]: %s\t*hello: %s\t package: '%s' \t pLength: %d\n", scanner, hello, package, pLength );
 
     // package[0] = '\0';
 
