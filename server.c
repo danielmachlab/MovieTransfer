@@ -100,8 +100,9 @@ int main(int argc, char const *argv[])
 
 
         if(index>970){
+            printf("\nINDEX: %d\n", index);
+            send(new_socket, package, index, 0 );
             index = 0;
-            send(new_socket, package , index, 0 );
             printf("-----------------------\n%s", package); 
             package[0] = '\0';
        }

@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
         printf("valread: \t%d\t message: \t", valread);
         printf("%s\n",buffer ); 
     }
-    printf("outside loop: %d", valread);
+    printf("outside loop: %d\n", valread);
     printf("test4");
     return 0; 
 } 
