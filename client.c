@@ -1,18 +1,19 @@
 
+
 // Client side C/C++ program to demonstrate Socket programming 
 #include <stdio.h> 
 #include <sys/socket.h> 
 #include <stdlib.h> 
 #include <netinet/in.h> 
 #include <string.h> 
-#define PORT 4000 
+#define PORT 4001
    
 int main(int argc, char const *argv[]) 
 { 
     struct sockaddr_in address; 
     int sock = 0, valread; 
     struct sockaddr_in serv_addr; 
-    char *hello = "asdf asdf Hello from client"; 
+    char *hello = "Hello from client"; 
     char buffer[1024] = {0}; 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) 
     { 
@@ -38,10 +39,12 @@ int main(int argc, char const *argv[])
         return -1; 
     } 
     send(sock , hello , strlen(hello) , 0 ); 
-    printf("hahah yooooo Hello message sent\n"); 
-    while((valread = read( sock , buffer, 1024)) > 0){
-        printf("%s",buffer ); 
+    printf("Hello message sent\n"); 
+    while((valread = read( sock , buffer, 1024))>0){
+        printf("valread: \t%d\t message: \t", valread);
+        printf("%s\n",buffer ); 
     }
-    
+    printf("outside loop: %d", valread);
+    printf("test4");
     return 0; 
 } 

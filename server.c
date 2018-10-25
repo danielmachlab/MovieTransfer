@@ -6,7 +6,7 @@
 #include <stdlib.h> 
 #include <netinet/in.h> 
 #include <string.h> 
-#define PORT 4000 
+#define PORT 4001 
 int main(int argc, char const *argv[]) 
 { 
     int server_fd, new_socket, valread; 
@@ -15,13 +15,6 @@ int main(int argc, char const *argv[])
     int addrlen = sizeof(address); 
     char buffer[1024] = {0}; 
     char *hello = "Hello from server"; 
-
-
-    /* get file from server */
-    int curl_response = system("curl http://user.engineering.uiowa.edu/~jwryan/Communication_Networks/alice.txt -o alice.txt");
-    if(curl_response != 0){
-        printf("curl request failed %d\n", curl_response);
-    }
        
     // Creating socket file descriptor 
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) 
@@ -60,7 +53,9 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE); 
     } 
     valread = read( new_socket , buffer, 1024); 
-
+    printf("%s\n",buffer ); 
+    send(new_socket , hello , strlen(hello) , 0 ); 
+    printf("Hello message sent\n"); 
 
     /* send script */
     FILE *fp = fopen("practice.txt", "r+");
@@ -82,6 +77,7 @@ int main(int argc, char const *argv[])
         int equality = strcmp(scanner, argv[1]);
         int len1 =strlen(scanner);
         int len2 =strlen(argv[1]);
+        char nextLetter = fgetc(fp);
 
         // if(strcmp(scanner, argv[1])){
         //     printf("\nscanner: '%s', len: %i\t other: '%s', len: %d\n", scanner, len1, argv[1], len2);
@@ -99,16 +95,16 @@ int main(int argc, char const *argv[])
             index++;
             for(int i = 0; i <  len - 1; i ++)
                 scanner[i] = scanner[i+1]; 
-            scanner[len-1] = fgetc(fp);
+            scanner[len-1] = nextLetter;
         }
 
 
-        if(strlen(package)>970){
+        if(index>970){
             index = 0;
             send(new_socket, package , index, 0 );
             printf("-----------------------\n%s", package); 
             package[0] = '\0';
-        }
+       }
 
     }
     send(new_socket, package , index, 0 );
@@ -117,4 +113,3 @@ int main(int argc, char const *argv[])
     printf("Script sent\n"); 
     return 0; 
 } 
-
